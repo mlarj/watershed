@@ -1,25 +1,38 @@
 __author__ = 'Miguel Araujo'
+
+
 import sys
 import cv2
-import numpy
+import numpy as np
 import utilities as u
 
 
+
+isNewPoint = 0
+newPoint = (-1,-1)
+
+
 def onMouse(event, x, y, flags, params):
-    pass
+    global isNewPoint
+    global newPoint
+    if event == cv2.EVENT_LBUTTONUP:
+        isNewPoint=1
+        newPoint = (x,y)
+
+
+
 
 def main(argv):
-    """
+    global isNewPoint
+    global newPoint
 
-    @param argv:
-    """
     img = cv2.imread("Penguins.jpg")
-    # img = u.resize(img)
+    img = u.resize(img)
 
     winName="watershed Testes"
-    imgPrev = numpy.copy(img)
-
+    imgPrev = np.copy(img)
     cv2.namedWindow(winName)
+
     cv2.imshow(winName, imgPrev)
     cv2.setMouseCallback(winName, onMouse)
 
@@ -28,15 +41,14 @@ def main(argv):
     bgRect=[]
     while op!='p' and op!='P':
         op = cv2.waitKey(50)
-        if isnewPoint == 1:
-            isnewPoint=0
+        if isNewPoint == 1:
+            isNewPoint=0
             if op == 'f' or op == 'F':
                 fgRect+=[newPoint]
             elif op == 'f' or op == '':
                 pass
 
-
-
+    cv2.destroyAllWindows()
     #img = cv2.imread("5.jpg")
     #imgGrey = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
